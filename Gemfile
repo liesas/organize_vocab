@@ -37,6 +37,8 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem "active_model_serializers"
+gem "rswag-api"
+gem "rswag-ui"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -46,6 +48,7 @@ end
 group :test do
   gem "rspec-rails"
   gem "fabrication"
+  gem "rswag-specs"
 end
 
 group :development do

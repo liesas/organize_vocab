@@ -25,6 +25,16 @@ module OrganizeVocab
     config.api_only = true
     config.generators do |g|
       g.test_framework = :rspec
+
+      # Do not auto-generate standard request specs; use `rails generate rspec:swagger MyController` instead
+      g.request_specs false
+    end
+
+    # auto-generate response example for swagger API documentation
+    if Rails.env.test?
+      RSpec.configure do |config|
+        config.swagger_dry_run = false
+      end
     end
   end
 end
