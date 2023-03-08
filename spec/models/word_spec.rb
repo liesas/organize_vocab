@@ -65,6 +65,14 @@ RSpec.describe Word, type: :model do
       expect(word).to_not be_valid
       expect(word.errors[:dictionary_form]).to include("is not Chinese")
     end
+
+    it "is not valid if dictionary_form has already been taken ignoring simplified/traditional characters" do
+      Fabricate(:word, language: "zh", dictionary_form: "谢谢")
+
+      word = Fabricate.build(:word, language: "zh", dictionary_form: "謝謝")
+      expect(word).to_not be_valid
+      expect(word.errors[:dictionary_form]).to include("has already been taken")
+    end
   end
 
   describe "#chinese?" do
@@ -76,6 +84,34 @@ RSpec.describe Word, type: :model do
     it "returns false if language is not 'zh'" do
       word = Fabricate.build(:word, language: "en", dictionary_form: "abc")
       expect(word.chinese?).to be_falsey
+    end
+  end
+
+  describe "#simplify_chinese_dictionary_form" do
+    context "when dictionary_form has all traditional characters" do
+      it "transforms it to all simplified characters" do
+        word = Fabricate.build(:word, language: "zh", dictionary_form: "電腦")
+        expect(word.dictionary_form).to_not eq("电脑")
+        word.send(:simplify_chinese_dictionary_form)
+        expect(word.dictionary_form).to eq("电脑")
+      end
+    end
+
+    context "when dictionary_form has mixed characters" do
+      it "transforms it to all simplified characters" do
+        word = Fabricate.build(:word, language: "zh", dictionary_form: "电腦")
+        expect(word.dictionary_form).to_not eq("电脑")
+        word.send(:simplify_chinese_dictionary_form)
+        expect(word.dictionary_form).to eq("电脑")
+      end
+    end
+
+    context "when dictionary_form has all simplified characters" do
+      it "makes no changes to it" do
+        word = Fabricate.build(:word, language: "zh", dictionary_form: "电脑")
+        word.send(:simplify_chinese_dictionary_form)
+        expect(word.dictionary_form).to eq("电脑")
+      end
     end
   end
 end
