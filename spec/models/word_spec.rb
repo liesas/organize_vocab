@@ -37,35 +37,33 @@ RSpec.describe Word, type: :model do
     it "is valid if dictionary_form is made up of simplified or traditional Chinese characters" do
       word = Fabricate.build(:word, language: "zh", dictionary_form: "电脑")
       expect(word).to be_valid
-      expect(word.errors[:dictionary_form]).to_not include("is invalid")
 
       word = Fabricate.build(:word, language: "zh", dictionary_form: "謝謝")
       expect(word).to be_valid
-      expect(word.errors[:dictionary_form]).to_not include("is invalid")
     end
 
     it "is not valid if dictionary_form includes non-CJK characters" do
       word = Fabricate.build(:word, language: "zh", dictionary_form: "abc")
       expect(word).to_not be_valid
-      expect(word.errors[:dictionary_form]).to include("is invalid")
+      expect(word.errors[:dictionary_form]).to include("is not Chinese")
     end
 
     it "is not valid if dictionary_form includes non-Chinese CJK characters" do
       word = Fabricate.build(:word, language: "zh", dictionary_form: "ㄅㄆㄇㄈ") #bopomofo
       expect(word).to_not be_valid
-      expect(word.errors[:dictionary_form]).to include("is invalid")
+      expect(word.errors[:dictionary_form]).to include("is not Chinese")
 
       word = Fabricate.build(:word, language: "zh", dictionary_form: "한글") #hangul
       expect(word).to_not be_valid
-      expect(word.errors[:dictionary_form]).to include("is invalid")
+      expect(word.errors[:dictionary_form]).to include("is not Chinese")
 
       word = Fabricate.build(:word, language: "zh", dictionary_form: "ひらがな") #hiragana
       expect(word).to_not be_valid
-      expect(word.errors[:dictionary_form]).to include("is invalid")
+      expect(word.errors[:dictionary_form]).to include("is not Chinese")
 
       word = Fabricate.build(:word, language: "zh", dictionary_form: "カタカナ") #katakana
       expect(word).to_not be_valid
-      expect(word.errors[:dictionary_form]).to include("is invalid")
+      expect(word.errors[:dictionary_form]).to include("is not Chinese")
     end
   end
 

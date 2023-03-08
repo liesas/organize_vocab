@@ -4,7 +4,7 @@ class Word < ApplicationRecord
   validates :language, presence: true, inclusion: { in: LANGUAGES }
   validates :dictionary_form, presence: true
   validate :dictionary_form_cannot_be_duplicate_for_same_language
-  validates :dictionary_form, format: { with: /\p{Han}/ }, if: -> { chinese? }
+  validates :dictionary_form, format: { with: /\p{Han}/, message: "is not Chinese" }, if: -> { chinese? }
 
   def chinese?
     language == 'zh'
