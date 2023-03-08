@@ -85,6 +85,7 @@ GEM
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
+    docile (1.4.0)
     erubi (1.12.0)
     fabrication (2.30.0)
     globalid (1.1.0)
@@ -186,6 +187,12 @@ GEM
     rswag-ui (2.8.0)
       actionpack (>= 3.1, < 7.1)
       railties (>= 3.1, < 7.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     thor (1.2.1)
     timeout (0.3.1)
     tzinfo (2.0.6)
@@ -210,6 +217,7 @@ DEPENDENCIES
   rswag-api
   rswag-specs
   rswag-ui
+  simplecov
   tzinfo-data
 
 RUBY VERSION
