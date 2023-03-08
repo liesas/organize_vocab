@@ -30,3 +30,4 @@
 
 /coverage/
 /.idea/
+echo coverage >> .gitignore

@@ -49,6 +49,7 @@ group :test do
   gem "rspec-rails"
   gem "fabrication"
   gem "rswag-specs"
+  gem "simplecov"
 end
 
 group :development do
