@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_08_085529) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_09_163724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_085529) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "vocabulary_words", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "word_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_vocabulary_words_on_user_id"
+    t.index ["word_id"], name: "index_vocabulary_words_on_word_id"
+  end
+
   create_table "words", force: :cascade do |t|
     t.string "dictionary_form", null: false
     t.string "language", null: false
@@ -27,4 +36,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_085529) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "vocabulary_words", "users"
+  add_foreign_key "vocabulary_words", "words"
 end

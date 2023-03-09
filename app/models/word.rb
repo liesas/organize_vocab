@@ -1,6 +1,9 @@
 require 'tradsim'
 
 class Word < ApplicationRecord
+  has_many :vocabulary_words
+  has_many :users, through: :vocabulary_words
+
   LANGUAGES = %w[zh].freeze
 
   before_validation :simplify_chinese_dictionary_form, if: -> { chinese? }
