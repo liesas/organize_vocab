@@ -1,5 +1,4 @@
 class Api::V1::VocabularyWordSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :user
+  attributes :id, :created_at
   has_one :word
 end
