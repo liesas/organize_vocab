@@ -195,6 +195,7 @@ GEM
     simplecov_json_formatter (0.1.4)
     thor (1.2.1)
     timeout (0.3.1)
+    tradsim (0.5.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     websocket-driver (0.7.5)
@@ -218,6 +219,7 @@ DEPENDENCIES
   rswag-specs
   rswag-ui
   simplecov
+  tradsim
   tzinfo-data
 
 RUBY VERSION

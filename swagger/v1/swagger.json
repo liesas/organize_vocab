@@ -41,7 +41,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 10,
+                  "id": 132,
                   "name": "new_valid_name"
                 }
               }
@@ -188,6 +188,293 @@
         "responses": {
           "204": {
             "description": "no content"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{user_id}/vocabulary_words": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "list VocabularyWords",
+        "tags": [
+          "VocabularyWords"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 909,
+                    "created_at": "2023-03-11T21:46:27.385Z",
+                    "word": {
+                      "id": 905,
+                      "language": "zh",
+                      "hanzi": "老"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "create VocabularyWord",
+        "tags": [
+          "VocabularyWords"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 913,
+                  "created_at": "2023-03-11T21:46:27.426Z",
+                  "word": {
+                    "id": 909,
+                    "language": "zh",
+                    "hanzi": "新"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "dictionary_form": [
+                    "is not Chinese"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "language": {
+                    "type": "string"
+                  },
+                  "dictionary_from": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "language",
+                  "dictionary_form"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{user_id}/vocabulary_words/{id}": {
+      "get": {
+        "summary": "show VocabularyWord",
+        "tags": [
+          "VocabularyWords"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 923,
+                  "created_at": "2023-03-11T21:46:27.530Z",
+                  "word": {
+                    "id": 918,
+                    "language": "zh",
+                    "hanzi": "老"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete VocabularyWord",
+        "tags": [
+          "VocabularyWords"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "no content"
+          }
+        }
+      }
+    },
+    "/api/v1/words": {
+      "get": {
+        "summary": "list Words",
+        "tags": [
+          "Words"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 123,
+                    "language": "zh",
+                    "hanzi": "你好"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "create Word",
+        "tags": [
+          "Words"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 922,
+                  "language": "zh",
+                  "hanzi": "再见"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "dictionary_form": [
+                    "is not Chinese"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "language": {
+                    "type": "string"
+                  },
+                  "dictionary_form": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "language",
+                  "dictionary_form"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/words/{id}": {
+      "get": {
+        "summary": "show Word",
+        "tags": [
+          "Words"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 123,
+                  "language": "zh",
+                  "hanzi": "你好"
+                }
+              }
+            }
           }
         }
       }
