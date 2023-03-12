@@ -1,4 +1,6 @@
 class Api::V1::VocabularyWordsController < ApplicationController
+  include Filterable
+
   wrap_parameters Word
 
   before_action :set_vocabulary_word, only: %i[ show destroy ]
@@ -7,7 +9,12 @@ class Api::V1::VocabularyWordsController < ApplicationController
   def index
     @vocabulary_words = VocabularyWord.where('user_id = ?', params[:user_id])
 
-    render json: @vocabulary_words
+    if (@q = params[:q])
+      @words_to_filter = @vocabulary_words.left_joins(:word)
+      render json: filtered_words
+    else
+      render json: @vocabulary_words
+    end
   end
 
   # GET /api/v1/users/1/vocabulary_words/1

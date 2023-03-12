@@ -41,7 +41,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 132,
+                  "id": 71,
                   "name": "new_valid_name"
                 }
               }
@@ -201,6 +201,11 @@
           "schema": {
             "type": "string"
           }
+        },
+        {
+          "name": "q",
+          "in": "query",
+          "required": false
         }
       ],
       "get": {
@@ -215,12 +220,12 @@
               "application/json": {
                 "example": [
                   {
-                    "id": 909,
-                    "created_at": "2023-03-11T21:46:27.385Z",
+                    "id": 1005,
+                    "created_at": "2023-03-12T10:43:43.058Z",
                     "word": {
-                      "id": 905,
+                      "id": 1085,
                       "language": "zh",
-                      "hanzi": "老"
+                      "hanzi": "一"
                     }
                   }
                 ]
@@ -243,10 +248,10 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 913,
-                  "created_at": "2023-03-11T21:46:27.426Z",
+                  "id": 1010,
+                  "created_at": "2023-03-12T10:43:43.099Z",
                   "word": {
-                    "id": 909,
+                    "id": 1090,
                     "language": "zh",
                     "hanzi": "新"
                   }
@@ -323,10 +328,10 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 923,
-                  "created_at": "2023-03-11T21:46:27.530Z",
+                  "id": 1024,
+                  "created_at": "2023-03-12T10:43:43.204Z",
                   "word": {
-                    "id": 918,
+                    "id": 1103,
                     "language": "zh",
                     "hanzi": "老"
                   }
@@ -372,6 +377,13 @@
         "tags": [
           "Words"
         ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful",
@@ -382,6 +394,11 @@
                     "id": 123,
                     "language": "zh",
                     "hanzi": "你好"
+                  },
+                  {
+                    "id": 1111,
+                    "language": "zh",
+                    "hanzi": "好"
                   }
                 ]
               }
@@ -403,7 +420,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 922,
+                  "id": 1115,
                   "language": "zh",
                   "hanzi": "再见"
                 }

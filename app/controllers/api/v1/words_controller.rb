@@ -1,11 +1,18 @@
 class Api::V1::WordsController < ApplicationController
+  include Filterable
+
   before_action :set_word, only: [:show]
 
   # GET /api/v1/words
   def index
     @words = Word.all
 
-    render json: @words
+    if (@q = params[:q])
+      @words_to_filter = @words
+      render json: filtered_words
+    else
+      render json: @words
+    end
   end
 
   # GET /api/v1/words/1
