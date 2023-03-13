@@ -2,5 +2,8 @@ class User < ApplicationRecord
   has_many :vocabulary_words
   has_many :words, through: :vocabulary_words
 
-  validates :name, uniqueness: { case_sensitive: false }, presence: true, format: { with: /\A[\w-]{3,20}\z/ }
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
+  validates :email, email: { mode: :strict }
 end

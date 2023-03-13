@@ -40,6 +40,8 @@ gem "active_model_serializers"
 gem "rswag-api"
 gem "rswag-ui"
 gem "tradsim"
+gem "devise"
+gem "email_validator"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -51,6 +53,7 @@ group :test do
   gem "fabrication"
   gem "rswag-specs"
   gem "simplecov"
+  gem "faker"
 end
 
 group :development do

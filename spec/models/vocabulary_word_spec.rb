@@ -4,7 +4,7 @@ RSpec.describe VocabularyWord, type: :model do
   let!(:subject) { Fabricate(:vocabulary_word) }
 
   it "is valid with User and Word" do
-    user = Fabricate(:user, name: 'valid_name')
+    user = Fabricate(:user)
     word = Fabricate(:word, language: 'zh', dictionary_form: '新')
     vocabulary_word = Fabricate.build(:vocabulary_word) do
       user { user }
@@ -15,7 +15,7 @@ RSpec.describe VocabularyWord, type: :model do
   end
 
   it "is valid if VocabularyWord with this Word already exists for other User" do
-    new_user = Fabricate(:user, name: 'valid_name')
+    new_user = Fabricate(:user)
     existent_word = subject.word
     vocabulary_word = Fabricate.build(:vocabulary_word) do
       user { new_user }

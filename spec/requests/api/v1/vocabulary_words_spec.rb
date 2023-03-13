@@ -4,7 +4,7 @@ RSpec.describe 'VocabularyWords V1', type: :request do
 
   let!(:subject1) do
     Fabricate(:vocabulary_word) do
-      user { Fabricate(:user, id: 1, name: "user1") }
+      user { Fabricate(:user, id: 1) }
       word { Fabricate(:word, language: 'zh', dictionary_form: "老") }
     end
   end
@@ -18,7 +18,7 @@ RSpec.describe 'VocabularyWords V1', type: :request do
 
   let!(:subject3) do
     Fabricate(:vocabulary_word) do
-      user { Fabricate(:user, id: 2, name: "user2") }
+      user { Fabricate(:user, id: 2) }
       word { Fabricate(:word, language: 'zh', dictionary_form: "二") }
     end
   end
