@@ -1,51 +1,33 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[ show update destroy ]
+  skip_before_action :doorkeeper_authorize!, only: %i[create]
 
-  # # GET /api/v1/users
-  # def index
-  #   @users = User.all
-  #
-  #   render json: @users
-  # end
-  #
-  # # GET /api/v1/users/1
-  # def show
-  #   render json: @user
-  # end
-  #
-  # # POST /api/v1/users
-  # def create
-  #   @user = User.new(user_params)
-  #
-  #   if @user.save
-  #     render json: @user, status: :created, location: api_v1_user_url(@user)
-  #   else
-  #     render json: @user.errors, status: :unprocessable_entity
-  #   end
-  # end
-  #
-  # # PATCH/PUT /api/v1/users/1
-  # def update
-  #   if @user.update(user_params)
-  #     render json: @user
-  #   else
-  #     render json: @user.errors, status: :unprocessable_entity
-  #   end
-  # end
-  #
-  # # DELETE /api/v1/users/1
-  # def destroy
-  #   @user.destroy
-  # end
-  #
-  # private
-  #   # Use callbacks to share common setup or constraints between actions.
-  #   def set_user
-  #     @user = User.find(params[:id])
-  #   end
-  #
-  #   # Only allow a list of trusted parameters through.
-  #   def user_params
-  #     params.require(:user).permit(:name)
-  #   end
+  # POST /api/v1/users
+  def create
+    user = User.new(email: user_params[:email], password: user_params[:password])
+    client_app = Doorkeeper::Application.find_by(uid: user_params[:client_id])
+
+    if client_app.nil?
+      render json: { error: 'invalid_client'}, status: :unauthorized
+    elsif user.save
+      access_token = Doorkeeper::AccessToken.create(resource_owner_id: user.id, application_id: client_app.id,
+                                                    refresh_token: generate_refresh_token,
+                                                    expires_in: Doorkeeper.configuration.access_token_expires_in.to_i)
+
+      render json: { access_token: access_token.token, token_type: 'Bearer', expires_in: access_token.expires_in,
+                     refresh_token: access_token.refresh_token, created_at: access_token.created_at.to_time.to_i },
+             status: :created
+    else
+      render json: user.errors, status: 422
+    end
+  end
+
+  private
+
+    def user_params
+      params.permit(:client_id, :email, :password)
+    end
+
+    def generate_refresh_token
+      SecureRandom.urlsafe_base64(32, false)
+    end
 end
