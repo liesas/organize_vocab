@@ -9,3 +9,10 @@
 if Doorkeeper::Application.count.zero?
   Fabricate(:application, name: 'client')
 end
+
+unless User.find_by email: 'test@user.com'
+  user = Fabricate(:user, email: 'test@user.com', password: 'password')
+  %w[啊 阿姨 矮 爱好 安静 把 搬 班 办法 办公室 半 帮忙].map { |str| Fabricate(:word, dictionary_form: str) }.each do |word|
+    Fabricate(:vocabulary_word, user: user, word: word)
+  end
+end
