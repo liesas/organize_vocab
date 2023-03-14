@@ -116,7 +116,7 @@ RSpec.describe 'Words V1', type: :request do
         end
       end
 
-      response(404, 'successful') do
+      response(404, 'not found') do
         let(:id) { 'non_existent_id' }
         after do |example|
           example.metadata[:response][:content] = {
