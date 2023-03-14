@@ -6,31 +6,10 @@
   },
   "paths": {
     "/api/v1/users": {
-      "get": {
-        "summary": "list Users",
-        "tags": [
-          "Users"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful",
-            "content": {
-              "application/json": {
-                "example": [
-                  {
-                    "id": 123,
-                    "name": "valid_name"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
       "post": {
-        "summary": "create User",
+        "summary": "register",
         "tags": [
-          "Users"
+          "OAuth User"
         ],
         "parameters": [
 
@@ -41,8 +20,11 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 71,
-                  "name": "new_valid_name"
+                  "access_token": "0etfvzS-Ep8wjSee4-cKtmKefGXLnihMTggrewExHNY",
+                  "token_type": "Bearer",
+                  "expires_in": 7200,
+                  "refresh_token": "edRAhvU8lxZPOuFeHpPtStAW4lXnpY2nkJfbfEgHwE4",
+                  "created_at": 1678787085
                 }
               }
             }
@@ -52,9 +34,19 @@
             "content": {
               "application/json": {
                 "example": {
-                  "name": [
+                  "email": [
                     "is invalid"
                   ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "invalid_client"
                 }
               }
             }
@@ -66,12 +58,20 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
                     "type": "string"
                   }
                 },
                 "required": [
-                  "name"
+                  "client_id",
+                  "email",
+                  "password"
                 ]
               }
             }
@@ -79,125 +79,12 @@
         }
       }
     },
-    "/api/v1/users/{id}": {
-      "get": {
-        "summary": "show User",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful",
-            "content": {
-              "application/json": {
-                "example": {
-                  "id": 123,
-                  "name": "valid_name"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "summary": "update User",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful",
-            "content": {
-              "application/json": {
-                "example": {
-                  "id": 123,
-                  "name": "new_valid_name"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "unprocessable entity",
-            "content": {
-              "application/json": {
-                "example": {
-                  "name": [
-                    "is invalid"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name"
-                ]
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "delete User",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "no content"
-          }
-        }
-      }
-    },
-    "/api/v1/users/{user_id}/vocabulary_words": {
+    "/api/v1/vocabulary_words": {
       "parameters": [
         {
-          "name": "user_id",
-          "in": "path",
-          "required": true,
+          "name": "Authorization",
+          "in": "header",
+          "required": false,
           "schema": {
             "type": "string"
           }
@@ -214,16 +101,19 @@
           "VocabularyWords"
         ],
         "responses": {
+          "401": {
+            "description": "unauthorized"
+          },
           "200": {
             "description": "successful",
             "content": {
               "application/json": {
                 "example": [
                   {
-                    "id": 1005,
-                    "created_at": "2023-03-12T10:43:43.058Z",
+                    "id": 1636,
+                    "created_at": "2023-03-14T09:44:45.438Z",
                     "word": {
-                      "id": 1085,
+                      "id": 1928,
                       "language": "zh",
                       "hanzi": "一"
                     }
@@ -248,10 +138,10 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 1010,
-                  "created_at": "2023-03-12T10:43:43.099Z",
+                  "id": 1641,
+                  "created_at": "2023-03-14T09:44:45.491Z",
                   "word": {
-                    "id": 1090,
+                    "id": 1933,
                     "language": "zh",
                     "hanzi": "新"
                   }
@@ -270,9 +160,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "not found"
           }
         },
         "requestBody": {
@@ -298,21 +185,23 @@
         }
       }
     },
-    "/api/v1/users/{user_id}/vocabulary_words/{id}": {
+    "/api/v1/vocabulary_words/{id}": {
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
       "get": {
         "summary": "show VocabularyWord",
         "tags": [
           "VocabularyWords"
         ],
         "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -328,10 +217,10 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 1024,
-                  "created_at": "2023-03-12T10:43:43.204Z",
+                  "id": 1652,
+                  "created_at": "2023-03-14T09:44:45.627Z",
                   "word": {
-                    "id": 1103,
+                    "id": 1943,
                     "language": "zh",
                     "hanzi": "老"
                   }
@@ -347,14 +236,6 @@
           "VocabularyWords"
         ],
         "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -396,7 +277,7 @@
                     "hanzi": "你好"
                   },
                   {
-                    "id": 1111,
+                    "id": 1,
                     "language": "zh",
                     "hanzi": "好"
                   }
@@ -420,7 +301,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 1115,
+                  "id": 1949,
                   "language": "zh",
                   "hanzi": "再见"
                 }
@@ -490,6 +371,127 @@
                   "language": "zh",
                   "hanzi": "你好"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "summary": "login/refresh token",
+        "tags": [
+          "OAuth Token"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when logging in": {
+                    "value": {
+                      "access_token": "FviAlzMykINmKwPGACCWdsi7yXDYR5VY2BRk78sMWlU",
+                      "token_type": "Bearer",
+                      "expires_in": 7200,
+                      "refresh_token": "bcfUtFMLP9HoFRkrI3-opa4vE2MSm59V2AqVVdPdjFw",
+                      "created_at": 1678787085
+                    }
+                  },
+                  "when refreshing token": {
+                    "value": {
+                      "access_token": "xENpYOqXQXrEZeGakNZBKBG27wznH6Zxe8-z_Ds3gD4",
+                      "token_type": "Bearer",
+                      "expires_in": 7200,
+                      "refresh_token": "QIfBJ_hMNwmhMcLAY-A0YI9m9fTQ6K0WDXeS3EMZJt0",
+                      "created_at": 1678787085
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "refresh_token": {
+                    "type": "string"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "client_id",
+                  "client_secret"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/revoke": {
+      "post": {
+        "summary": "logout",
+        "tags": [
+          "OAuth Token"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "example": {
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "token",
+                  "client_id",
+                  "client_secret"
+                ]
               }
             }
           }

@@ -7,72 +7,60 @@ RSpec.describe 'OAuth Token', type: :request do
 
   path '/oauth/token' do
 
-    post('login') do
+    post('login/refresh token') do
+      tags 'OAuth Token'
       produces 'application/json'
       consumes 'application/json'
-      parameter name: :login, in: :body, schema: {
+      parameter name: :token_params, in: :body, schema: {
         type: :object,
         properties: {
           grant_type: { type: :string },
           email: { type: :string },
           password: { type: :string },
-          client_id: { type: :string },
-          client_secret: { type: :string }
-        },
-        required: [:client_id, :email, :password, :client_id, :client_secret]
-      }
-
-      response(200, 'successful') do
-        let(:login) { { grant_type: 'password', email: user.email, password: user.password,
-                        client_id: application.uid, client_secret: application.secret } }
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          expect(data).to have_key('access_token')
-          expect(data).to have_key('token_type')
-          expect(data).to have_key('expires_in')
-          expect(data).to have_key('refresh_token')
-          expect(data).to have_key('created_at')
-        end
-      end
-    end
-
-    post('refresh') do
-      produces 'application/json'
-      consumes 'application/json'
-      parameter name: :refresh, in: :body, schema: {
-        type: :object,
-        properties: {
-          grant_type: { type: :string },
           refresh_token: { type: :string },
           client_id: { type: :string },
           client_secret: { type: :string }
         },
-        required: [:grant_type, :refresh_token, :client_id, :client_secret]
+        required: [:grant_type, :client_id, :client_secret]
       }
 
       response(200, 'successful') do
-        let(:refresh) { { grant_type: 'refresh_token', refresh_token: token.refresh_token, client_id: application.uid, client_secret: application.secret } }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
+              examples: {
+                example.metadata[:example_group][:description] => {
+                  value: JSON.parse(response.body, symbolize_names: true)
+                }
+              }
             }
           }
         end
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          expect(data).to have_key('access_token')
-          expect(data).to have_key('token_type')
-          expect(data).to have_key('expires_in')
-          expect(data).to have_key('refresh_token')
-          expect(data).to have_key('created_at')
+
+        context 'when logging in' do
+          let(:token_params) { { grant_type: 'password', email: user.email, password: user.password,
+                          client_id: application.uid, client_secret: application.secret } }
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data).to have_key('access_token')
+            expect(data).to have_key('token_type')
+            expect(data).to have_key('expires_in')
+            expect(data).to have_key('refresh_token')
+            expect(data).to have_key('created_at')
+          end
+        end
+
+        context 'when refreshing token' do
+          let(:token_params) { { grant_type: 'refresh_token', refresh_token: token.refresh_token,
+                                 client_id: application.uid, client_secret: application.secret } }
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data).to have_key('access_token')
+            expect(data).to have_key('token_type')
+            expect(data).to have_key('expires_in')
+            expect(data).to have_key('refresh_token')
+            expect(data).to have_key('created_at')
+          end
         end
       end
     end
@@ -81,9 +69,10 @@ RSpec.describe 'OAuth Token', type: :request do
   path '/oauth/revoke' do
 
     post('logout') do
+      tags 'OAuth Token'
       produces 'application/json'
       consumes 'application/json'
-      parameter name: :revoke, in: :body, schema: {
+      parameter name: :token_params, in: :body, schema: {
         type: :object,
         properties: {
           token: { type: :string },
@@ -94,7 +83,7 @@ RSpec.describe 'OAuth Token', type: :request do
       }
 
       response(200, 'successful') do
-        let(:revoke) { { token: token.token, client_id: application.uid, client_secret: application.secret } }
+        let(:token_params) { { token: token.token, client_id: application.uid, client_secret: application.secret } }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
