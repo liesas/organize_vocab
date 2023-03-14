@@ -37,9 +37,13 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem "active_model_serializers"
+gem "fabrication"
 gem "rswag-api"
 gem "rswag-ui"
 gem "tradsim"
+gem "devise"
+gem "email_validator"
+gem "doorkeeper"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -48,9 +52,9 @@ end
 
 group :test do
   gem "rspec-rails"
-  gem "fabrication"
   gem "rswag-specs"
   gem "simplecov"
+  gem "faker"
 end
 
 group :development do

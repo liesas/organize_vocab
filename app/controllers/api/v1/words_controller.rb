@@ -1,6 +1,7 @@
 class Api::V1::WordsController < ApplicationController
   include Filterable
 
+  skip_before_action :doorkeeper_authorize!
   before_action :set_word, only: [:show]
 
   # GET /api/v1/words

@@ -2,57 +2,47 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   it "is valid with valid attributes" do
-    user = Fabricate.build(:user, name: "Valid_name-123")
+    user = Fabricate.build(:user, email: "valid@email.com", password: "password")
     expect(user).to be_valid
   end
 
-  it "is not valid without a name" do
-    user = Fabricate.build(:user, name: nil)
+  it "is not valid without an email" do
+    user = Fabricate.build(:user, email: nil)
     expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("can't be blank")
+    expect(user.errors[:email]).to include("can't be blank")
   end
 
-  it "is not valid if name has already been taken" do
-    Fabricate(:user, name: "Existent_name-123")
-
-    user = Fabricate.build(:user, name: "Existent_name-123")
+  it "is not valid with an invalid email" do
+    user = Fabricate.build(:user, email: nil)
     expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("has already been taken")
+    expect(user.errors[:email]).to include("can't be blank")
   end
 
-  it "is not valid if name has already been taken ignoring cases" do
-    Fabricate(:user, name: "Existent_name-123")
+  it "is not valid if email has already been taken" do
+    Fabricate(:user, email: "email@example.com")
 
-    user = Fabricate.build(:user, name: "existent_name-123")
+    user = Fabricate.build(:user, email: "email@example.com")
     expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("has already been taken")
+    expect(user.errors[:email]).to include("has already been taken")
   end
 
-  it "is not valid if name is too long" do
-    user = Fabricate.build(:user, name: "abcdefghijklmnopqrstuvwxyz")
+  it "is not valid if email has already been taken ignoring cases" do
+    Fabricate(:user, email: "email@example.com")
+
+    user = Fabricate.build(:user, email: "Email@example.com")
     expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("is invalid")
+    expect(user.errors[:email]).to include("has already been taken")
   end
 
-  it "is not valid if name is too short" do
-    user = Fabricate.build(:user, name: "ab")
+  it "is not valid without a password" do
+    user = Fabricate.build(:user, password: nil)
     expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("is invalid")
+    expect(user.errors[:password]).to include("can't be blank")
   end
 
-  it "is not valid if name includes special character" do
-    user = Fabricate.build(:user, name: "aßc123")
+  it "is not valid with too short of a password" do
+    user = Fabricate.build(:user, password: "123")
     expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("is invalid")
-
-    user = Fabricate.build(:user, name: "abc.23")
-    expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("is invalid")
-  end
-
-  it "is not valid if name includes whitespace" do
-    user = Fabricate.build(:user, name: "abc 123")
-    expect(user).to_not be_valid
-    expect(user.errors[:name]).to include("is invalid")
+    expect(user.errors[:password]).to include("is too short (minimum is 6 characters)")
   end
 end

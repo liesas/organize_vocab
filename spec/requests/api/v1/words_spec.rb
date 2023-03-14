@@ -1,10 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'Words V1', type: :request do
-
-  let!(:subject1) { Fabricate(:word, id: 123, language: 'zh', dictionary_form: '你好') }
-  let!(:subject2) { Fabricate(:word, language: 'zh', dictionary_form: '好') }
-  let!(:subject3) { Fabricate(:word, language: 'zh', dictionary_form: '三') }
+  let!(:words) { %w[你好 好 三].map { |str| Fabricate(:word, dictionary_form: str) } }
 
   path '/api/v1/words' do
 
@@ -39,7 +36,8 @@ RSpec.describe 'Words V1', type: :request do
         end
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data).to match([a_hash_including('hanzi'=>'你好') ,a_hash_including('hanzi'=>'好')])
+          expect(data).to match([a_hash_including('hanzi' => '你好') ,
+                                 a_hash_including('hanzi' => '好')])
           expect(data.count).to eq(2)
         end
       end
@@ -97,10 +95,10 @@ RSpec.describe 'Words V1', type: :request do
     get('show Word') do
       tags 'Words'
       produces 'application/json'
-      parameter name: 'id', in: :path, type: :string, description: 'id'
+      parameter name: :id, in: :path, type: :string, description: :id
 
       response(200, 'successful') do
-        let(:id) { subject1.id }
+        let(:id) { words[0].id }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -111,11 +109,21 @@ RSpec.describe 'Words V1', type: :request do
         run_test! do |response|
           expect(response.content_type).to match(a_string_including('application/json'))
           data = JSON.parse(response.body)
-          expect(data).to be_an_instance_of(Hash)
           expect(data).to have_key('hanzi')
           expect(data).to have_key('language')
           expect(data).to_not have_key('dictionary_form')
-          expect(data['hanzi']).to eq(subject1.dictionary_form)
+          expect(data['hanzi']).to eq(words[0].dictionary_form)
+        end
+      end
+
+      response(404, 'successful') do
+        let(:id) { 'non_existent_id' }
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
         end
       end
     end

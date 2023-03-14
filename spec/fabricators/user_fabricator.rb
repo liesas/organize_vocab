@@ -1,3 +1,4 @@
 Fabricator(:user) do
-  name "abc"
+  email { Faker::Internet::email }
+  password 'password'
 end
