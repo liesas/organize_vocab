@@ -20,11 +20,11 @@
             "content": {
               "application/json": {
                 "example": {
-                  "access_token": "0etfvzS-Ep8wjSee4-cKtmKefGXLnihMTggrewExHNY",
+                  "access_token": "8R9FxS9BBjDpGPi1D-bbCvctRi2oD-BVqTp2rTGF_-Q",
                   "token_type": "Bearer",
                   "expires_in": 7200,
-                  "refresh_token": "edRAhvU8lxZPOuFeHpPtStAW4lXnpY2nkJfbfEgHwE4",
-                  "created_at": 1678787085
+                  "refresh_token": "P1LQBnmEbWVSnrBMvPfkiSzmAV7HaRIXDpDSJc6RMVs",
+                  "created_at": 1678981711
                 }
               }
             }
@@ -110,10 +110,10 @@
               "application/json": {
                 "example": [
                   {
-                    "id": 1636,
-                    "created_at": "2023-03-14T09:44:45.438Z",
+                    "id": 189,
+                    "created_at": "2023-03-16T15:48:32.298Z",
                     "word": {
-                      "id": 1928,
+                      "id": 280,
                       "language": "zh",
                       "hanzi": "一"
                     }
@@ -138,10 +138,10 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 1641,
-                  "created_at": "2023-03-14T09:44:45.491Z",
+                  "id": 194,
+                  "created_at": "2023-03-16T15:48:32.347Z",
                   "word": {
-                    "id": 1933,
+                    "id": 285,
                     "language": "zh",
                     "hanzi": "新"
                   }
@@ -217,10 +217,10 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 1652,
-                  "created_at": "2023-03-14T09:44:45.627Z",
+                  "id": 205,
+                  "created_at": "2023-03-16T15:48:32.479Z",
                   "word": {
-                    "id": 1943,
+                    "id": 295,
                     "language": "zh",
                     "hanzi": "老"
                   }
@@ -272,12 +272,12 @@
               "application/json": {
                 "example": [
                   {
-                    "id": 123,
+                    "id": 304,
                     "language": "zh",
                     "hanzi": "你好"
                   },
                   {
-                    "id": 1,
+                    "id": 305,
                     "language": "zh",
                     "hanzi": "好"
                   }
@@ -301,7 +301,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 1949,
+                  "id": 310,
                   "language": "zh",
                   "hanzi": "再见"
                 }
@@ -367,7 +367,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "id": 123,
+                  "id": 314,
                   "language": "zh",
                   "hanzi": "你好"
                 }
@@ -394,20 +394,20 @@
                 "examples": {
                   "when logging in": {
                     "value": {
-                      "access_token": "FviAlzMykINmKwPGACCWdsi7yXDYR5VY2BRk78sMWlU",
+                      "access_token": "3ieMspsDvwGK2ndxactZWH62gPj7u4ZQXaNqzCsXrAk",
                       "token_type": "Bearer",
                       "expires_in": 7200,
-                      "refresh_token": "bcfUtFMLP9HoFRkrI3-opa4vE2MSm59V2AqVVdPdjFw",
-                      "created_at": 1678787085
+                      "refresh_token": "5Ava-hZgl6H29XHKTdZdKn_YepmYPGzGbmOGO8JNwBw",
+                      "created_at": 1678981712
                     }
                   },
                   "when refreshing token": {
                     "value": {
-                      "access_token": "xENpYOqXQXrEZeGakNZBKBG27wznH6Zxe8-z_Ds3gD4",
+                      "access_token": "TfHHq3b8JmZQmd39aMswhC6HmY8sOuEFM5L_d3kot_Q",
                       "token_type": "Bearer",
                       "expires_in": 7200,
-                      "refresh_token": "QIfBJ_hMNwmhMcLAY-A0YI9m9fTQ6K0WDXeS3EMZJt0",
-                      "created_at": 1678787085
+                      "refresh_token": "NgZ0gdWdh6-vUFjeyQpQLNb3_MLtIluRVKVeWS688VM",
+                      "created_at": 1678981712
                     }
                   }
                 }
@@ -501,12 +501,7 @@
   },
   "servers": [
     {
-      "url": "http://{defaultHost}",
-      "variables": {
-        "defaultHost": {
-          "default": "127.0.0.1:3000/"
-        }
-      }
+      "url": "https://api.organize-vocab.com/"
     }
   ]
 }
