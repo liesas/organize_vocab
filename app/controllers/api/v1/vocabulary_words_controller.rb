@@ -25,7 +25,7 @@ class Api::V1::VocabularyWordsController < ApplicationController
   # POST /api/v1/vocabulary_words
   def create
     user = User.find(current_user.id)
-    word = Word.find_or_create_by(word_params)
+    word = Word.find_or_create_by(language: word_params[:language], dictionary_form: word_params[:dictionary_form])
 
     @vocabulary_word = VocabularyWord.new(user_id: user.id, word_id: word.id)
 

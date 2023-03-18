@@ -149,6 +149,17 @@ RSpec.describe 'VocabularyWords V1', type: :request do
             expect(response.content_type).to match(a_string_including('application/json'))
           end
         end
+
+        response(422, 'unprocessable entity') do
+          let(:vocabulary_word) { { language: 'zh' } }
+          run_test! do |response|
+            expect(VocabularyWord.count).to eq(3)
+            expect(Word.count).to eq(3)
+            data = JSON.parse(response.body)
+            expect(data).to_not have_key('word')
+            expect(data['dictionary_form']).to match(a_string_including('can\'t be blank'))
+          end
+        end
       end
     end
 
